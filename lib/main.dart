@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp ({super.key});
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +29,11 @@ class MyHomePage extends StatefulWidget {
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
+  
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
 
   @override
   Widget build(BuildContext context) {
@@ -40,14 +41,38 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Container(
+      body: Padding(
         padding: EdgeInsets.all(20), 
           child: Column(
             children: [
-              Text('Bem-vindo ao app de veículos'),
               TextField(
-                
-              )
+                  decoration: InputDecoration(
+                    hintText: 'Marca'
+                  ),
+                ),
+
+              SizedBox(height: 20,),
+
+              TextField(
+                decoration: InputDecoration(
+                  hintText: 'Modelo'
+                ),
+              ),
+
+              SizedBox(height: 20,),
+              
+              TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Ano'
+                  ),
+                ),
+              
+              SizedBox(height: 20,),
+              
+              ElevatedButton(
+                  onPressed: () {},
+                  child: Text('Salvar'),
+                ),
             ],
           )
       ),
