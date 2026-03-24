@@ -3,6 +3,7 @@ void main() {
   runApp(const MyApp());
 }
 
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -34,7 +35,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,24 +45,27 @@ class _MyHomePageState extends State<MyHomePage> {
         padding: EdgeInsets.all(20), 
           child: Column(
             children: [
-              TextField(
+              TextFormField(
                   decoration: InputDecoration(
+                    border: OutlineInputBorder(),
                     hintText: 'Marca'
                   ),
                 ),
 
               SizedBox(height: 20,),
 
-              TextField(
+              TextFormField(
                 decoration: InputDecoration(
+                  border: OutlineInputBorder(),
                   hintText: 'Modelo'
                 ),
               ),
 
               SizedBox(height: 20,),
               
-              TextField(
+              TextFormField(
                   decoration: InputDecoration(
+                    border: OutlineInputBorder(),
                     hintText: 'Ano'
                   ),
                 ),
