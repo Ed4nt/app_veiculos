@@ -23,6 +23,111 @@ class MyApp extends StatelessWidget {
   }
 }
 
+class MyCustomForm extends StatefulWidget {
+  const MyCustomForm({super.key});
+
+  @override
+  MyCustomFormState createState() {
+    return MyCustomFormState();
+  }
+}
+
+class MyCustomFormState extends State<MyCustomForm> {
+  final _formKey = GlobalKey<FormState>();
+
+  final marcaController = TextEditingController();
+  final modeloController = TextEditingController();
+  final anoController = TextEditingController();
+
+  @override
+  void dispose() {
+    marcaController.dispose();
+    modeloController.dispose();
+    anoController.dispose();
+    super.dispose();
+  }
+
+  
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          TextFormField(
+            controller: myController,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'O campo deve ser preenchido';
+              }
+              return null;
+            },
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Marca'
+                  ),
+                ),
+
+          SizedBox(height: 20,),
+
+          TextFormField(
+            controller: myController,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'O campo deve ser preenchido';
+              }
+              return null;
+            },
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              hintText: 'Modelo'
+            ),
+          ),
+
+          SizedBox(height: 20,),
+              
+          TextFormField(
+            controller: myController,
+            validator:(value) {
+              if (value == null || value.isEmpty) {
+                return 'O campo deve ser preenchido';
+              }
+              return null;
+            },
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: 'Ano'
+              ),
+            ),
+              
+          SizedBox(height: 20,),
+              
+          ElevatedButton(
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Processando dados'))
+                  );
+                }
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      content: Text(myController.text),
+                    );
+                  }
+                );
+              },
+              child: Text('Salvar'),
+          )
+        ],
+      )
+    );
+  }
+}
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
@@ -45,37 +150,7 @@ class _MyHomePageState extends State<MyHomePage> {
         padding: EdgeInsets.all(20), 
           child: Column(
             children: [
-              TextFormField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Marca'
-                  ),
-                ),
-
-              SizedBox(height: 20,),
-
-              TextFormField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Modelo'
-                ),
-              ),
-
-              SizedBox(height: 20,),
-              
-              TextFormField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Ano'
-                  ),
-                ),
-              
-              SizedBox(height: 20,),
-              
-              ElevatedButton(
-                  onPressed: () {},
-                  child: Text('Salvar'),
-                ),
+              const MyCustomForm()
             ],
           )
       ),
