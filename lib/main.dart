@@ -23,6 +23,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
+
+
 class MyCustomForm extends StatefulWidget {
   const MyCustomForm({super.key});
 
@@ -47,9 +49,6 @@ class MyCustomFormState extends State<MyCustomForm> {
     super.dispose();
   }
 
-  
-
-
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -57,7 +56,7 @@ class MyCustomFormState extends State<MyCustomForm> {
       child: Column(
         children: [
           TextFormField(
-            controller: myController,
+            controller: marcaController,
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'O campo deve ser preenchido';
@@ -73,7 +72,7 @@ class MyCustomFormState extends State<MyCustomForm> {
           SizedBox(height: 20,),
 
           TextFormField(
-            controller: myController,
+            controller: modeloController,
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'O campo deve ser preenchido';
@@ -89,7 +88,7 @@ class MyCustomFormState extends State<MyCustomForm> {
           SizedBox(height: 20,),
               
           TextFormField(
-            controller: myController,
+            controller: anoController,
             validator:(value) {
               if (value == null || value.isEmpty) {
                 return 'O campo deve ser preenchido';
@@ -107,24 +106,52 @@ class MyCustomFormState extends State<MyCustomForm> {
           ElevatedButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Processando dados'))
-                  );
-                }
-                showDialog(
+                  showDialog(
                   context: context,
                   builder: (context) {
                     return AlertDialog(
-                      content: Text(myController.text),
+                      content: Text('''
+Marca: ${marcaController.text}
+Modelo: ${modeloController.text}
+Ano: ${int.parse(anoController.text)}'''),
                     );
                   }
                 );
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Processando dados'))
+                  );                  
+                }
               },
               child: Text('Salvar'),
           )
         ],
       )
     );
+  }
+}
+
+abstract class Veiculo {
+  final TextEditingController marcaController;
+  final TextEditingController modeloController;
+  final TextEditingController anoController;
+
+  const Veiculo({
+    required this.marcaController,
+    required this.modeloController,
+    required this.anoController,
+  });
+}
+
+class Carro extends Veiculo {
+  const Carro({
+    required super.marcaController,
+    required super.modeloController,
+    required super.anoController,
+  }); 
+
+  @override
+  void exibirDados() {
+    
   }
 }
 
