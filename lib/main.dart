@@ -109,11 +109,9 @@ class MyCustomFormState extends State<MyCustomForm> {
                   showDialog(
                   context: context,
                   builder: (context) {
+                    final corolla = Veiculo(marca: marcaController.text, modelo: modeloController.text, ano: int.parse(anoController.text));
                     return AlertDialog(
-                      content: Text('''
-Marca: ${marcaController.text}
-Modelo: ${modeloController.text}
-Ano: ${int.parse(anoController.text)}'''),
+                      content: Text(corolla.toString())
                     );
                   }
                 );
@@ -130,30 +128,28 @@ Ano: ${int.parse(anoController.text)}'''),
   }
 }
 
-abstract class Veiculo {
-  final TextEditingController marcaController;
-  final TextEditingController modeloController;
-  final TextEditingController anoController;
+class Veiculo {
+  final String marca;
+  final String modelo;
+  final int ano;
 
   const Veiculo({
-    required this.marcaController,
-    required this.modeloController,
-    required this.anoController,
+    required this.marca,
+    required this.modelo,
+    required this.ano,
   });
-}
-
-class Carro extends Veiculo {
-  const Carro({
-    required super.marcaController,
-    required super.modeloController,
-    required super.anoController,
-  }); 
 
   @override
-  void exibirDados() {
-    
+  String toString() {
+    return ('''
+Marca: $marca
+Modelo: $modelo
+Ano: $ano
+''');
   }
 }
+
+
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
