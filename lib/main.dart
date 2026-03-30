@@ -92,7 +92,9 @@ class MyCustomFormState extends State<MyCustomForm> {
             validator:(value) {
               if (value == null || value.isEmpty) {
                 return 'O campo deve ser preenchido';
-              } else if (value.length == 4) {
+              }
+              final ano = int.tryParse(value);
+              if (ano != null && ano >= 1886) {
                 return null;
               }
               return 'Ano inválido';
@@ -106,15 +108,16 @@ class MyCustomFormState extends State<MyCustomForm> {
           SizedBox(height: 20,),
               
           ElevatedButton(
-              onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Processando dados'))
-                  );
+              onPressed: () {                
                 if (_formKey.currentState!.validate()) {
                   showDialog(
                   context: context,
                   builder: (context) {
-                    final veiculo = Veiculo(marca: marcaController.text, modelo: modeloController.text, ano: int.parse(anoController.text));
+                    final veiculo = Veiculo(
+                      marca: marcaController.text,
+                      modelo: modeloController.text,
+                      ano: int.parse(anoController.text)
+                      );
                     return AlertDialog(
                       content: Text(veiculo.exibirDados())
                     );
