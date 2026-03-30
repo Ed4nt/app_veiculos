@@ -92,8 +92,10 @@ class MyCustomFormState extends State<MyCustomForm> {
             validator:(value) {
               if (value == null || value.isEmpty) {
                 return 'O campo deve ser preenchido';
+              } else if (value.length == 4) {
+                return null;
               }
-              return null;
+              return 'Ano inválido';
             },
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
@@ -105,19 +107,19 @@ class MyCustomFormState extends State<MyCustomForm> {
               
           ElevatedButton(
               onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Processando dados'))
+                  );
                 if (_formKey.currentState!.validate()) {
                   showDialog(
                   context: context,
                   builder: (context) {
-                    final corolla = Veiculo(marca: marcaController.text, modelo: modeloController.text, ano: int.parse(anoController.text));
+                    final veiculo = Veiculo(marca: marcaController.text, modelo: modeloController.text, ano: int.parse(anoController.text));
                     return AlertDialog(
-                      content: Text(corolla.toString())
+                      content: Text(veiculo.exibirDados())
                     );
                   }
                 );
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Processando dados'))
-                  );                  
                 }
               },
               child: Text('Salvar'),
@@ -139,13 +141,8 @@ class Veiculo {
     required this.ano,
   });
 
-  @override
-  String toString() {
-    return ('''
-Marca: $marca
-Modelo: $modelo
-Ano: $ano
-''');
+  String exibirDados() {
+    return 'Marca: $marca\nModelo: $modelo\nAno: $ano';
   }
 }
 
