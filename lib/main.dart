@@ -3,7 +3,6 @@ void main() {
   runApp(const MyApp());
 }
 
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -23,15 +22,17 @@ class MyApp extends StatelessWidget {
   }
 }
 
-
-
 class MyCustomForm extends StatefulWidget {
-  const MyCustomForm({super.key});
+  const MyCustomForm({super.key, required this.onSalvar});
+
+  final void Function(Veiculo) onSalvar;
 
   @override
   MyCustomFormState createState() {
     return MyCustomFormState();
   }
+
+  
 }
 
 class MyCustomFormState extends State<MyCustomForm> {
@@ -91,38 +92,38 @@ class MyCustomFormState extends State<MyCustomForm> {
             controller: anoController,
             validator:(value) {
               if (value == null || value.isEmpty) {
-                return 'O campo deve ser preenchido';
+                return 'O campo é obrigatório';
               }
               final ano = int.tryParse(value);
-              if (ano != null && ano >= 1886) {
-                return null;
+              if(ano == null) {
+                return 'Digite apenas números';
+              } else if(ano < 1886) {
+                return 'Ano inválido';
               }
-              return 'Ano inválido';
+              return null;              
             },
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Ano'
-              ),
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              hintText: 'Ano'
             ),
+          ),
               
           SizedBox(height: 20,),
-              
+
           ElevatedButton(
               onPressed: () {                
                 if (_formKey.currentState!.validate()) {
                   showDialog(
-                  context: context,
-                  builder: (context) {
-                    final veiculo = Veiculo(
-                      marca: marcaController.text,
-                      modelo: modeloController.text,
-                      ano: int.parse(anoController.text)
+                    context: context,
+                    builder: (context) {
+                      final veiculo = Veiculo(
+                        marca: marcaController.text,
+                        modelo: modeloController.text,
+                        ano: int.parse(anoController.text)
                       );
-                    return AlertDialog(
-                      content: Text(veiculo.exibirDados())
-                    );
-                  }
-                );
+                      return Text('teste');
+                    }
+                  );
                 }
               },
               child: Text('Salvar'),
@@ -143,25 +144,21 @@ class Veiculo {
     required this.modelo,
     required this.ano,
   });
-
-  String exibirDados() {
-    return 'Marca: $marca\nModelo: $modelo\nAno: $ano';
-  }
 }
-
-
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
   final String title;
-
+  
   @override
   State<MyHomePage> createState() => _MyHomePageState();
   
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+  List<Veiculo> veiculos = [];
 
   @override
   Widget build(BuildContext context) {
@@ -180,7 +177,9 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  @override
+  void setState(() {
+    veiculos
+  })
+
 }
-
-
-
