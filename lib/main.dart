@@ -11,8 +11,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.deepPurple)
-          ),
+          seedColor: Colors.deepPurple
+        )
+      ),
       home: MyHomePage(
         title: 'Cadastro de Veículos'
         ),
@@ -22,8 +23,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyCustomForm extends StatefulWidget {
-  const MyCustomForm({super.key, required this.onSalvar});
+class MyCustomForm (onSalvar: adicionarVeiculo) extends StatefulWidget {
+  const MyCustomForm({required super.key, required this.onSalvar});
 
   final void Function(Veiculo) onSalvar;
 
@@ -153,6 +154,12 @@ class MyHomePage extends StatefulWidget {
   
   @override
   State<MyHomePage> createState() => _MyHomePageState();
+
+  void adicionarVeiculo(Veiculo veiculo) {
+    setState(() {
+      veiculos.add(veiculo);
+    });
+  }
   
 }
 
@@ -177,9 +184,8 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  @override
   void setState(() {
-    veiculos
-  })
+    veiculos.add(novoVeiculo);
+  });
 
 }
