@@ -23,10 +23,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyCustomForm (onSalvar: adicionarVeiculo) extends StatefulWidget {
-  const MyCustomForm({required super.key, required this.onSalvar});
-
-  final void Function(Veiculo) onSalvar;
+class MyCustomForm extends StatefulWidget {
+  const MyCustomForm({super.key});
 
   @override
   MyCustomFormState createState() {
@@ -42,6 +40,13 @@ class MyCustomFormState extends State<MyCustomForm> {
   final marcaController = TextEditingController();
   final modeloController = TextEditingController();
   final anoController = TextEditingController();
+
+  List<Veiculo> veiculos = [];
+
+  void onSalvar(Veiculo novoVeiculo) {
+    veiculos.add(novoVeiculo);
+    assert(veiculos.length == 1, 'O veículo foi adicionado corretamente');
+  }
 
   @override
   void dispose() {
@@ -101,7 +106,7 @@ class MyCustomFormState extends State<MyCustomForm> {
               } else if(ano < 1886) {
                 return 'Ano inválido';
               }
-              return null;              
+              return null;
             },
             decoration: InputDecoration(
               border: OutlineInputBorder(),
@@ -114,21 +119,18 @@ class MyCustomFormState extends State<MyCustomForm> {
           ElevatedButton(
               onPressed: () {                
                 if (_formKey.currentState!.validate()) {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      final veiculo = Veiculo(
-                        marca: marcaController.text,
-                        modelo: modeloController.text,
-                        ano: int.parse(anoController.text)
-                      );
-                      return Text('teste');
-                    }
+                  final veiculo = Veiculo(
+                    marca: marcaController.text,
+                    modelo: modeloController.text,
+                    ano: int.parse(anoController.text)
                   );
+                  //onSalvar(veiculo);                        
+                 /* var veiculoDelete = veiculos.where((item) {item.ano == 2010 && item.marca == 'Toyota' && item.modelo == 'Corolla';}).toList();
+                  veiculos.remove(veiculoDelete[0]); */
                 }
               },
               child: Text('Salvar'),
-          )
+          ),
         ],
       )
     );
@@ -154,19 +156,9 @@ class MyHomePage extends StatefulWidget {
   
   @override
   State<MyHomePage> createState() => _MyHomePageState();
-
-  void adicionarVeiculo(Veiculo veiculo) {
-    setState(() {
-      veiculos.add(veiculo);
-    });
-  }
-  
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-  List<Veiculo> veiculos = [];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -176,16 +168,9 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Padding(
         padding: EdgeInsets.all(20), 
           child: Column(
-            children: [
-              const MyCustomForm()
-            ],
+            children: [],
           )
       ),
     );
   }
-
-  void setState(() {
-    veiculos.add(novoVeiculo);
-  });
-
 }
